@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+        color: #333;
+    }
+    
+    #chat-container {
+        width: 80%;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-top: 50px;
+    }
+    
+    #chat-log {
+        height: 300px;
+        overflow-y: scroll;
+        padding-right: 20px;
+    }
+    
+    #user-input {
+        width: calc(100% - 80px);
+        line-height: 10px;
+        padding: 2px;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        font-size: 16px;
+    }
+    
+    button {
+        width: 46px;
+        padding: 3px;
+        margin-top: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    
+    button:hover {
+        background-color: #45a049;
+    }
+    
+    p {
+        margin: 10px 0;
+    }
+    
+    strong {
+        font-weight: bold;
+    }
+    </style>
+</head>
+<body>
+    <h1>AI ChatBot</h1>
+    <div id="chat-box"></div>
+    <input type="text" id="user-input" placeholder="Type your message...">
+    <button id="send-btn">Send</button>
+
+    <script>
+        $(document).ready(function(){
+            $("#send-btn").click(function(){
+                var user_input = $("#user-input").val();
+                $("#chat-box").append("<p>You: " + user_input + "</p>");
+                $("#user-input").val('');
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/get_bot_response",
+                    data: { user_input: user_input },
+                    success: function(response) {
+                        $("#chat-box").append("<p>Bot: " + response.bot_response + "</p>");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
